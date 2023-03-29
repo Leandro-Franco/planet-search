@@ -1,0 +1,12 @@
+body {
+  justify-content: center;
+
+}
+.child {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.options {
+  padding-left: 1px;
+}
