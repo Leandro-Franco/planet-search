@@ -1,35 +1,51 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import FilterContext from '../context/FilterContext';
 import './Form.css';
 
 function Form() {
+  const { values } = useContext(FilterContext);
+  console.log(values);
+  const { setNameInput } = values;
+
+  function handleChange({ target }) {
+    const { value } = target;
+    return value;
+  }
+
   return (
     <>
       <header>
         <label htmlFor="name">Projeto Star Wars - Trybe </label>
         <p>
-
           <input
             type="text"
             id="name"
+            data-testid="name-filter"
             name="name"
+            onChange={ (e) => setNameInput(handleChange(e).toLowerCase()) }
           />
         </p>
-
       </header>
+
       <div>
-        <label htmlFor="coluna" className="child">Coluna:</label>
-        <select id="coluna" name="coluna" className="child">
-          <option value="coluna" className="child">population</option>
+        <label htmlFor="Colony" className="child">Colônia:</label>
+        <select id="Colony" name="Colony" className="child">
+          <option value="Colony" className="child">population</option>
         </select>
-        <label htmlFor="operador" className="child">Operador:</label>
-        <select id="operador" name="operador" className="child">
-          <option value="operador" className="child">maior que</option>
+        <label htmlFor="operator" className="child">Operador:</label>
+        <select id="operator" name="operator" className="child">
+          <option value="operator" className="child">maior que</option>
         </select>
-        <input type="number" className="child" />
-        <input type="button" value="filtrar" name="filtrar" className="child" />
+        <input type="number" name="quantity" className="child" />
+        <input
+          type="button"
+          value="filtrar"
+          name="filtrar"
+          className="child"
+        />
         <label htmlFor="ordenar" className="child">ordenar:</label>
-        <select id="ordenar" name="ordenar" className="child">
-          <option value="ordenar" className="child">populationOrder</option>
+        <select id="ordenar" name="selSort" className="child">
+          <option className="child">populationOrder</option>
         </select>
         <fieldset className="child options">
 
@@ -37,7 +53,7 @@ function Form() {
             <input
               type="radio"
               id="descendente"
-              name="ordem"
+              name="sort"
               value="descendente"
             />
             <label htmlFor="descendente" className="child">Descendente</label>
@@ -46,7 +62,7 @@ function Form() {
             <input
               type="radio"
               id="ascendente"
-              name="ordem"
+              name="sort"
               value="ascendente"
             />
             <label htmlFor="ascendente" className="child">Ascendente</label>
@@ -54,7 +70,12 @@ function Form() {
           </section>
 
         </fieldset>
-        <input type="button" value="ordenar" name="ordenar" className="child" />
+        <input
+          type="button"
+          value="ordenar"
+          name="ordenar"
+          className="child"
+        />
         <input
           type="button"
           value="remover filtros"

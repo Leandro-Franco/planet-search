@@ -22,6 +22,7 @@ function PlanetProvider({ children }) {
 
   const values = {
     planetData,
+    setPlanetData,
   };
   console.log(planetData);
   return (

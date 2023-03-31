@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
+import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { values } = useContext(PlanetContext);
-  const { planetData } = values;
+  const { planetData } = useContext(PlanetContext).values;
+  const { nameInput } = useContext(FilterContext).values;
   const dataTh = [
     'Name',
     'Rotation Period',
@@ -19,7 +20,20 @@ function Table() {
     'Edited',
     'Url',
   ];
-  // const dataLower = dataTh.map((el) => el.toLocaleLowerCase());
+
+  const newArray = planetData.filter((planet) => {
+    if (nameInput === '') {
+      return planet
+        .name.toLowerCase().includes(nameInput);
+    }
+
+    return planet
+      .name.toLowerCase().includes(nameInput);
+  });
+
+  useEffect(() => {
+  }, [nameInput, planetData]);
+
   return (
     <table>
       <thead>
@@ -31,7 +45,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          planetData.map((planet, index) => (
+          newArray.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
