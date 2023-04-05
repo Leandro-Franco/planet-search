@@ -4,11 +4,11 @@ import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
   const [planetData, setPlanetData] = useState([]);
+  const [dataFilter, setDataFilter] = useState([]);
 
   const fetchApi = async () => {
     const response = await fetch('https://swapi.dev/api/planets');
     const data = await response.json();
-    console.log(data);
     const dataApi = data.results.map((col) => {
       delete col.residents;
       return col;
@@ -18,13 +18,15 @@ function PlanetProvider({ children }) {
 
   useEffect(() => {
     fetchApi().then((dataApi) => setPlanetData(dataApi));
+    fetchApi().then((dataApi) => setDataFilter(dataApi));
   }, []);
 
   const values = {
     planetData,
     setPlanetData,
+    dataFilter,
+    setDataFilter,
   };
-  console.log(planetData);
   return (
     <PlanetContext.Provider value={ { values } }>
       {children}

@@ -4,21 +4,24 @@ import FilterContext from './FilterContext';
 
 function FilterProvider({ children }) {
   const [nameInput, setNameInput] = useState('');
-  const [selColonyInput, setSelColonyInput] = useState('');
-  const [selOperatorInput, setSelOperatorInput] = useState('');
-  const [quantityInput, setQuantityInput] = useState('');
+  const [selColumnInput, setSelColumnInput] = useState('population');
+  const [selOperatorInput, setSelOperatorInput] = useState('maior que');
+  const [quantityInput, setQuantityInput] = useState('0');
+  const [buttonInput, setButtonInput] = useState('');
   const [selSortInput, setSelSortInput] = useState('');
   const [sortInput, setSortInput] = useState('');
 
   const values = {
     nameInput,
     setNameInput,
-    selColonyInput,
-    setSelColonyInput,
+    selColumnInput,
+    setSelColumnInput,
     selOperatorInput,
     setSelOperatorInput,
     quantityInput,
     setQuantityInput,
+    buttonInput,
+    setButtonInput,
     selSortInput,
     setSelSortInput,
     sortInput,

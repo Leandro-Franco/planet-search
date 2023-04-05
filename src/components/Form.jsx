@@ -4,12 +4,36 @@ import './Form.css';
 
 function Form() {
   const { values } = useContext(FilterContext);
-  console.log(values);
-  const { setNameInput } = values;
+  const {
+    setNameInput,
+    setSelColumnInput,
+    setSelOperatorInput,
+    setQuantityInput,
+    setButtonInput,
+  } = values;
+
+  const dataCol = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const dataOpe = [
+    'maior que',
+    'menor que',
+    'igual a',
+  ];
 
   function handleChange({ target }) {
     const { value } = target;
     return value;
+  }
+
+  function setfilter() {
+    const { selColumnInput, selOperatorInput, quantityInput } = values;
+    return [selColumnInput, selOperatorInput, quantityInput];
   }
 
   return (
@@ -28,20 +52,44 @@ function Form() {
       </header>
 
       <div>
-        <label htmlFor="Colony" className="child">Colônia:</label>
-        <select id="Colony" name="Colony" className="child">
-          <option value="Colony" className="child">population</option>
+        <label htmlFor="column" className="child">coluna:</label>
+        <select
+          id="column"
+          data-testid="column-filter"
+          name="column"
+          className="child"
+          onChange={ (e) => setSelColumnInput(handleChange(e).toLowerCase()) }
+        >
+          { dataCol.map((col) => (
+            <option key={ col } className="child">{col}</option>
+          ))}
         </select>
         <label htmlFor="operator" className="child">Operador:</label>
-        <select id="operator" name="operator" className="child">
-          <option value="operator" className="child">maior que</option>
+        <select
+          id="operator"
+          data-testid="comparison-filter"
+          name="operator"
+          className="child"
+          onChange={ (e) => setSelOperatorInput(handleChange(e)) }
+        >
+          { dataOpe.map((ope) => (
+            <option key={ ope } className="child">{ope}</option>
+          ))}
         </select>
-        <input type="number" name="quantity" className="child" />
+        <input
+          type="number"
+          data-testid="value-filter"
+          name="quantity"
+          className="child"
+          onChange={ (e) => setQuantityInput(handleChange(e)) }
+        />
         <input
           type="button"
+          data-testid="button-filter"
           value="filtrar"
           name="filtrar"
           className="child"
+          onClick={ () => setButtonInput(setfilter()) }
         />
         <label htmlFor="ordenar" className="child">ordenar:</label>
         <select id="ordenar" name="selSort" className="child">
