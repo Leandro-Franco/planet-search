@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import FilterContext from '../context/FilterContext';
+import PlanetContext from '../context/PlanetContext';
 import './Form.css';
 
 function Form() {
+  const { dataFilter, setDataFilter } = useContext(PlanetContext).values;
   const { values } = useContext(FilterContext);
   const {
     setNameInput,
     setSelColumnInput,
     setSelOperatorInput,
     setQuantityInput,
-    setButtonInput,
   } = values;
 
   const dataCol = [
@@ -33,7 +34,24 @@ function Form() {
 
   function setfilter() {
     const { selColumnInput, selOperatorInput, quantityInput } = values;
-    return [selColumnInput, selOperatorInput, quantityInput];
+    const filteredArray = () => {
+      const column = selColumnInput;
+      const operator = selOperatorInput;
+      const value = quantityInput;
+      if (operator === 'maior que') {
+        const filtered = dataFilter.filter((planets) => planets[column] > value);
+        return filtered;
+      }
+      if (operator === 'menor que') {
+        const filtered = dataFilter.filter((planets) => planets[column] < value);
+        return filtered;
+      }
+      if (operator === 'igual') {
+        const filtered = dataFilter.filter((planets) => planets[column] === value);
+        return filtered;
+      }
+    };
+    return filteredArray;
   }
 
   return (
@@ -89,7 +107,7 @@ function Form() {
           value="filtrar"
           name="filtrar"
           className="child"
-          onClick={ () => setButtonInput(setfilter()) }
+          onClick={ () => setDataFilter(setfilter()) }
         />
         <label htmlFor="ordenar" className="child">ordenar:</label>
         <select id="ordenar" name="selSort" className="child">

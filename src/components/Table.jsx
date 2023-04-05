@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { planetData, dataFilter, setDataFilter } = useContext(PlanetContext).values;
+  const { planetData, dataFilter } = useContext(PlanetContext).values;
   console.log(planetData);
-  const { nameInput, buttonInput } = useContext(FilterContext).values;
+  const { nameInput } = useContext(FilterContext).values;
   const dataTh = [
     'Name',
     'Rotation Period',
@@ -22,36 +22,16 @@ function Table() {
     'Url',
   ];
 
-  const filteredArray = () => {
-    const column = buttonInput[0];
-    const operator = buttonInput[1];
-    const value = buttonInput[2];
-    if (operator === 'maior que') {
-      const filtered = dataFilter.filter((planets) => planets[column] > value);
-      setDataFilter(filtered);
-    }
-    if (operator === 'menor que') {
-      const filtered = dataFilter.filter((planets) => planets[column] < value);
-      setDataFilter(filtered);
-    }
-    if (operator === 'igual') {
-      const filtered = dataFilter.filter((planets) => planets[column] === value);
-      setDataFilter(filtered);
-    }
-    return dataFilter;
-  };
-  console.log(filteredArray());
-
-  const newArray = filteredArray().filter((planet) => {
+  const newArray = dataFilter.filter((planet) => {
     if (nameInput === '') {
       return planet.name.toLowerCase().includes(nameInput);
     }
     return planet.name.toLowerCase().includes(nameInput);
   });
 
-  // useEffect(() => {
-  //   setData(planetData);
-  // }, [buttonInput]);
+  useEffect(() => {
+    console.log(dataFilter);
+  }, [dataFilter]);
 
   return (
     <table>
