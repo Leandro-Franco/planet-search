@@ -11,6 +11,7 @@ function Form() {
     setSelColumnInput,
     setSelOperatorInput,
     setQuantityInput,
+    quantityInput,
   } = values;
 
   const dataCol = [
@@ -33,22 +34,19 @@ function Form() {
   }
 
   function setfilter() {
-    const { selColumnInput, selOperatorInput, quantityInput } = values;
+    const { selColumnInput, selOperatorInput } = values;
     const filteredArray = () => {
       const column = selColumnInput;
       const operator = selOperatorInput;
       const value = quantityInput;
       if (operator === 'maior que') {
-        const filtered = dataFilter.filter((planets) => planets[column] > value);
-        return filtered;
+        return dataFilter.filter((planets) => Number(planets[column]) > Number(value));
       }
       if (operator === 'menor que') {
-        const filtered = dataFilter.filter((planets) => planets[column] < value);
-        return filtered;
+        return dataFilter.filter((planets) => Number(planets[column]) <= Number(value));
       }
-      if (operator === 'igual') {
-        const filtered = dataFilter.filter((planets) => planets[column] === value);
-        return filtered;
+      if (operator === 'igual a') {
+        return dataFilter.filter((planets) => Number(planets[column]) === Number(value));
       }
     };
     return filteredArray;
@@ -99,6 +97,7 @@ function Form() {
           data-testid="value-filter"
           name="quantity"
           className="child"
+          value={ quantityInput }
           onChange={ (e) => setQuantityInput(handleChange(e)) }
         />
         <input

@@ -6,7 +6,7 @@ function FilterProvider({ children }) {
   const [nameInput, setNameInput] = useState('');
   const [selColumnInput, setSelColumnInput] = useState('population');
   const [selOperatorInput, setSelOperatorInput] = useState('maior que');
-  const [quantityInput, setQuantityInput] = useState('0');
+  const [quantityInput, setQuantityInput] = useState(0);
   const [buttonInput, setButtonInput] = useState('');
   const [selSortInput, setSelSortInput] = useState('');
   const [sortInput, setSortInput] = useState('');
