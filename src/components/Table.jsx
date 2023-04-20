@@ -30,7 +30,6 @@ function Table() {
   });
 
   useEffect(() => {
-    console.log(dataFilter);
   }, [dataFilter]);
 
   return (

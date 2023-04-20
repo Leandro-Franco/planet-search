@@ -10,6 +10,15 @@ function FilterProvider({ children }) {
   const [buttonInput, setButtonInput] = useState('');
   const [selSortInput, setSelSortInput] = useState('');
   const [sortInput, setSortInput] = useState('');
+  const [getFilter, setGetFilter] = useState([]);
+  const [dataCol, setDataCol] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+  const [col, setCol] = useState('');
 
   const values = {
     nameInput,
@@ -26,6 +35,12 @@ function FilterProvider({ children }) {
     setSelSortInput,
     sortInput,
     setSortInput,
+    getFilter,
+    setGetFilter,
+    dataCol,
+    setDataCol,
+    col,
+    setCol,
   };
   return (
     <FilterContext.Provider value={ { values } }>

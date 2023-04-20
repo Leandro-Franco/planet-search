@@ -4,16 +4,21 @@ import PlanetContext from '../context/PlanetContext';
 import './Form.css';
 
 function Form() {
-  const { dataFilter, setDataFilter } = useContext(PlanetContext).values;
+  const { dataFilter,
+    setDataFilter } = useContext(PlanetContext).values;
   const { values } = useContext(FilterContext);
   const {
     setNameInput,
+    selColumnInput,
     setSelColumnInput,
+    selOperatorInput,
     setSelOperatorInput,
     setQuantityInput,
     quantityInput,
+    setGetFilter,
+    getFilter,
   } = values;
-
+  console.log(getFilter);
   const dataCol = [
     'population',
     'orbital_period',
@@ -34,7 +39,6 @@ function Form() {
   }
 
   function setfilter() {
-    const { selColumnInput, selOperatorInput } = values;
     const filteredArray = () => {
       const column = selColumnInput;
       const operator = selOperatorInput;
@@ -43,7 +47,7 @@ function Form() {
         return dataFilter.filter((planets) => Number(planets[column]) > Number(value));
       }
       if (operator === 'menor que') {
-        return dataFilter.filter((planets) => Number(planets[column]) <= Number(value));
+        return dataFilter.filter((planets) => Number(planets[column]) < Number(value));
       }
       if (operator === 'igual a') {
         return dataFilter.filter((planets) => Number(planets[column]) === Number(value));
@@ -76,7 +80,8 @@ function Form() {
           className="child"
           onChange={ (e) => setSelColumnInput(handleChange(e).toLowerCase()) }
         >
-          { dataCol.map((col) => (
+          {/* https://www.geeksforgeeks.org/how-to-get-the-elements-of-one-array-which-are-not-present-in-another-array-using-javascript/ */}
+          { dataCol.filter((column) => !getFilter.includes(column)).map((col) => (
             <option key={ col } className="child">{col}</option>
           ))}
         </select>
@@ -106,7 +111,10 @@ function Form() {
           value="filtrar"
           name="filtrar"
           className="child"
-          onClick={ () => setDataFilter(setfilter()) }
+          onClick={ () => {
+            setGetFilter(getFilter.concat(selColumnInput));
+            setDataFilter(setfilter());
+          } }
         />
         <label htmlFor="ordenar" className="child">ordenar:</label>
         <select id="ordenar" name="selSort" className="child">
