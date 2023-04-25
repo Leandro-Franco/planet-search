@@ -40,22 +40,23 @@ function Form() {
     return value;
   }
 
-  function setfilter() {
+  function setfilter(column, operator, value, data) {
+    console.log('chamou');
     const filteredArray = () => {
-      const column = selColumnInput;
-      const operator = selOperatorInput;
-      const value = quantityInput;
       if (operator === 'maior que') {
-        return dataFilter.filter((planets) => Number(planets[column]) > Number(value));
+        return data.filter((planets) => Number(planets[column]) > Number(value));
       }
       if (operator === 'menor que') {
-        return dataFilter.filter((planets) => Number(planets[column]) < Number(value));
+        return data.filter((planets) => Number(planets[column]) < Number(value));
       }
       if (operator === 'igual a') {
-        return dataFilter.filter((planets) => Number(planets[column]) === Number(value));
+        return data.filter((planets) => Number(planets[column]) === Number(value));
+      }
+      if (operator === undefined) {
+        return data;
       }
     };
-    return filteredArray;
+    return setDataFilter(filteredArray);
   }
 
   function toRemove() {
@@ -77,34 +78,23 @@ function Form() {
 
   function filterAtt(idx) {
     const idxWord = removeFilter.filter((row, i) => i !== idx);
-    const newArray = (params) => {
-      console.log(params);
-      if (params) {
-        const column = params.split(' ')[0];
-        const removeWord1 = params.split(' ')[1];
-        const removeWord2 = params.split(' ')[2];
-        const operator = `${removeWord1} ${removeWord2}`;
-        const value = params.split(' ')[3];
-        console.log(planetData);
-        console.log(column);
-        console.log(operator);
-        console.log(value);
-        if (operator === 'maior que') {
-          return planetData
-            .filter((planets) => Number(planets[column]) > Number(value));
-        }
-        if (operator === 'menor que') {
-          return planetData
-            .filter((planets) => Number(planets[column]) < Number(value));
-        }
-        if (operator === 'igual a') {
-          return planetData
-            .filter((planets) => Number(planets[column]) === Number(value));
-        }
+    const newArray = () => {
+      if (idxWord.length > 0) {
+        idxWord.forEach((params) => {
+          const column = params.split(' ')[0];
+          const removeWord1 = params.split(' ')[1];
+          const removeWord2 = params.split(' ')[2];
+          const operator = `${removeWord1} ${removeWord2}`;
+          const value = params.split(' ')[3];
+          console.log(column, operator, value);
+          setfilter(column, operator, value, planetData);
+        });
+      } else {
+        console.log(undefined, undefined, undefined);
+        return setfilter(undefined, undefined, undefined, planetData);
       }
-      return planetData;
     };
-    return idxWord.forEach((el) => newArray(el));
+    return newArray();
   }
 
   useEffect(() => {
@@ -172,7 +162,12 @@ function Form() {
           className="child"
           onClick={ () => {
             setGetFilter(getFilter.concat(selColumnInput));
-            setDataFilter(setfilter());
+            setfilter(
+              selColumnInput,
+              selOperatorInput,
+              quantityInput,
+              dataFilter,
+            );
             toRemove();
           } }
         />
@@ -231,7 +226,7 @@ function Form() {
               data-testid={ `filter ${idx}` }
               onClick={ () => {
                 removing(idx);
-                setDataFilter(filterAtt(idx));
+                filterAtt(idx);
               } }
             >
               x

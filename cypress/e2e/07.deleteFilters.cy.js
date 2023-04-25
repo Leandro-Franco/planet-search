@@ -18,7 +18,7 @@ const removeFilter = (index = 0) => {
 
 describe('7 - Apague um filtro de valor numérico ao clicar no ícone de X de um dos filtros e apague todas filtragens numéricas simultaneamente ao clicar em outro botão de Remover todas filtragens', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/', {
+    cy.visit('http://localhost:3002/', {
       onBeforeLoad(win) {
         cy.stub(win, 'fetch').callsFake(mockFetch);
       },
