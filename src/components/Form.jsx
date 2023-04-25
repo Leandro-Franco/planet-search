@@ -104,7 +104,6 @@ function Form() {
       }
       return planetData;
     };
-    console.log(newArray());
     return idxWord.forEach((el) => newArray(el));
   }
 
