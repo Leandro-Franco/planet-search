@@ -10,7 +10,7 @@ const TRIPLE_FILTERED_ROWS = 2;
 
 describe('4 - Implemente múltiplos filtros numéricos', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/', {
+    cy.visit('http://localhost:3002/', {
       onBeforeLoad(win) {
         cy.stub(win, 'fetch').callsFake(mockFetch);
       },

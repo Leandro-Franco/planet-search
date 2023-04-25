@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import FilterContext from '../context/FilterContext';
 import PlanetContext from '../context/PlanetContext';
 import './Form.css';
@@ -75,34 +75,48 @@ function Form() {
     setGetFilter(newFilter);
   }
 
-  // function filterAtt(idx) {
-  //   const idxWord = removeFilter.filter((row, i) => i !== idx);
+  function filterAtt(idx) {
+    const idxWord = removeFilter.filter((row, i) => i !== idx);
+    const newArray = (params) => {
+      console.log(params);
+      if (params) {
+        const column = params.split(' ')[0];
+        const removeWord1 = params.split(' ')[1];
+        const removeWord2 = params.split(' ')[2];
+        const operator = `${removeWord1} ${removeWord2}`;
+        const value = params.split(' ')[3];
+        console.log(planetData);
+        console.log(column);
+        console.log(operator);
+        console.log(value);
+        if (operator === 'maior que') {
+          return planetData
+            .filter((planets) => Number(planets[column]) > Number(value));
+        }
+        if (operator === 'menor que') {
+          return planetData
+            .filter((planets) => Number(planets[column]) < Number(value));
+        }
+        if (operator === 'igual a') {
+          return planetData
+            .filter((planets) => Number(planets[column]) === Number(value));
+        }
+      }
+      return planetData;
+    };
+    console.log(newArray());
+    return idxWord.forEach((el) => newArray(el));
+  }
 
-  //   return idxWord.forEach((params) => {
-  //     const column = params.split(' ')[0];
-  //     const removeWord1 = params.split(' ')[1];
-  //     const removeWord2 = params.split(' ')[2];
-  //     const operator = `${removeWord1} ${removeWord2}`;
-  //     const value = params.split(' ')[3];
-  //     console.log(planetData);
-  //     console.log(column);
-  //     console.log(operator);
-  //     console.log(value);
-  //     if (operator === 'maior que') {
-  //       return planetData
-  //         .filter((planets) => Number(planets[column]) > Number(value));
-  //     }
-  //     if (operator === 'menor que') {
-  //       return planetData
-  //         .filter((planets) => Number(planets[column]) < Number(value));
-  //     }
-  //     if (operator === 'igual a') {
-  //       return planetData
-  //         .filter((planets) => Number(planets[column]) === Number(value));
-  //     }
-  //   });
-  // }
-
+  useEffect(() => {
+    const el = dataCol
+      .filter((column) => !getFilter
+        .includes(column))
+      .map((col) => (
+        col
+      ));
+    setSelColumnInput(el[0]);
+  }, [getFilter]);
   return (
     <>
       <header>
@@ -117,7 +131,6 @@ function Form() {
           />
         </p>
       </header>
-
       <div>
         <label htmlFor="column" className="child">coluna:</label>
         <select
@@ -169,7 +182,6 @@ function Form() {
           <option className="child">populationOrder</option>
         </select>
         <fieldset className="child options">
-
           <section>
             <input
               type="radio"
@@ -189,9 +201,7 @@ function Form() {
               data-testid="column-sort-input-asc"
             />
             <label htmlFor="ascendente" className="child">Ascendente</label>
-
           </section>
-
         </fieldset>
         <input
           type="button"
@@ -214,7 +224,6 @@ function Form() {
         />
       </div>
       <div>
-
         {removeFilter && removeFilter.map((remover, idx) => (
           <p data-testid="filter" key={ idx }>
             {remover}
@@ -223,11 +232,10 @@ function Form() {
               data-testid={ `filter ${idx}` }
               onClick={ () => {
                 removing(idx);
-                // setDataFilter(filterAtt(idx));
+                setDataFilter(filterAtt(idx));
               } }
             >
               x
-
             </button>
           </p>
         ))}
