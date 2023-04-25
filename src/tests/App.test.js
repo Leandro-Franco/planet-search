@@ -50,11 +50,16 @@ describe('Testes referentes a tabela e seus filtros', () => {
     userEvent.clear(value);
     userEvent.type(value, '40');
     userEvent.click(btnfilter);
-    const btn1 = screen.getByTestId('filter 1');
+    const btn2 = screen.getByTestId('filter 2');
     expect(screen.queryByText('Naboo')).not.toBeInTheDocument();
-    userEvent.click(btn1);
+    userEvent.click(btn2);
     const quant = screen.queryAllByTestId('filter');
     expect(quant.length).toBe(2);
+    const btn1 = screen.getByTestId('filter 1');
+    const btn0 = screen.getByTestId('filter 0');
+    userEvent.click(btn1);
+    userEvent.click(btn0);
+    expect(screen.queryAllByTestId('filter').length).toBe(0);
     const removeFilter = screen.getByTestId('button-remove-filters');
     userEvent.click(removeFilter);
     expect(screen.queryByText('Tatooine')).toBeInTheDocument();
