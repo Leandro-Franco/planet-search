@@ -11,6 +11,7 @@ function FilterProvider({ children }) {
   const [selSortInput, setSelSortInput] = useState('');
   const [sortInput, setSortInput] = useState('');
   const [getFilter, setGetFilter] = useState([]);
+  const [removeFilter, setRemoveFilter] = useState([]);
   const [dataCol, setDataCol] = useState([
     'population',
     'orbital_period',
@@ -37,13 +38,15 @@ function FilterProvider({ children }) {
     setSortInput,
     getFilter,
     setGetFilter,
+    removeFilter,
+    setRemoveFilter,
     dataCol,
     setDataCol,
     col,
     setCol,
   };
   return (
-    <FilterContext.Provider value={ { values } }>
+    <FilterContext.Provider value={ values }>
       {children}
     </FilterContext.Provider>
   );

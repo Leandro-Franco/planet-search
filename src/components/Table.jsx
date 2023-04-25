@@ -3,9 +3,8 @@ import PlanetContext from '../context/PlanetContext';
 import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { planetData, dataFilter } = useContext(PlanetContext).values;
-  console.log(planetData);
-  const { nameInput } = useContext(FilterContext).values;
+  const { dataFilter } = useContext(PlanetContext);
+  const { nameInput } = useContext(FilterContext);
   const dataTh = [
     'Name',
     'Rotation Period',

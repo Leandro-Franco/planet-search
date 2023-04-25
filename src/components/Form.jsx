@@ -4,9 +4,10 @@ import PlanetContext from '../context/PlanetContext';
 import './Form.css';
 
 function Form() {
-  const { dataFilter,
-    setDataFilter } = useContext(PlanetContext).values;
-  const { values } = useContext(FilterContext);
+  const {
+    dataFilter,
+    setDataFilter,
+    planetData } = useContext(PlanetContext);
   const {
     setNameInput,
     selColumnInput,
@@ -17,8 +18,9 @@ function Form() {
     quantityInput,
     setGetFilter,
     getFilter,
-  } = values;
-  console.log(getFilter);
+    setRemoveFilter,
+    removeFilter,
+  } = useContext(FilterContext);
   const dataCol = [
     'population',
     'orbital_period',
@@ -55,6 +57,51 @@ function Form() {
     };
     return filteredArray;
   }
+
+  function toRemove() {
+    const column = selColumnInput;
+    const operator = selOperatorInput;
+    const value = quantityInput;
+
+    return setRemoveFilter(removeFilter.concat([`${column} ${operator} ${value}`]));
+  }
+
+  function removing(idx) {
+    const idxWord = removeFilter.filter((row, i) => i === idx);
+    const removeWord = idxWord.map((remove) => remove.split(' ')[0]);
+    const newFilter = getFilter.filter((el) => !removeWord.includes(el));
+
+    setRemoveFilter(removeFilter.filter((row, i) => i !== idx));
+    setGetFilter(newFilter);
+  }
+
+  // function filterAtt(idx) {
+  //   const idxWord = removeFilter.filter((row, i) => i !== idx);
+
+  //   return idxWord.forEach((params) => {
+  //     const column = params.split(' ')[0];
+  //     const removeWord1 = params.split(' ')[1];
+  //     const removeWord2 = params.split(' ')[2];
+  //     const operator = `${removeWord1} ${removeWord2}`;
+  //     const value = params.split(' ')[3];
+  //     console.log(planetData);
+  //     console.log(column);
+  //     console.log(operator);
+  //     console.log(value);
+  //     if (operator === 'maior que') {
+  //       return planetData
+  //         .filter((planets) => Number(planets[column]) > Number(value));
+  //     }
+  //     if (operator === 'menor que') {
+  //       return planetData
+  //         .filter((planets) => Number(planets[column]) < Number(value));
+  //     }
+  //     if (operator === 'igual a') {
+  //       return planetData
+  //         .filter((planets) => Number(planets[column]) === Number(value));
+  //     }
+  //   });
+  // }
 
   return (
     <>
@@ -114,6 +161,7 @@ function Form() {
           onClick={ () => {
             setGetFilter(getFilter.concat(selColumnInput));
             setDataFilter(setfilter());
+            toRemove();
           } }
         />
         <label htmlFor="ordenar" className="child">ordenar:</label>
@@ -128,6 +176,7 @@ function Form() {
               id="descendente"
               name="sort"
               value="descendente"
+              data-testid="column-sort-input-desc"
             />
             <label htmlFor="descendente" className="child">Descendente</label>
           </section>
@@ -137,6 +186,7 @@ function Form() {
               id="ascendente"
               name="sort"
               value="ascendente"
+              data-testid="column-sort-input-asc"
             />
             <label htmlFor="ascendente" className="child">Ascendente</label>
 
@@ -148,15 +198,40 @@ function Form() {
           value="ordenar"
           name="ordenar"
           className="child"
+          data-testid="column-sort-button"
         />
         <input
           type="button"
           value="remover filtros"
           name="remover filtros"
+          data-testid="button-remove-filters"
           className="child"
+          onClick={ () => {
+            setGetFilter([]);
+            setRemoveFilter([]);
+            setDataFilter(planetData);
+          } }
         />
       </div>
+      <div>
 
+        {removeFilter && removeFilter.map((remover, idx) => (
+          <p data-testid="filter" key={ idx }>
+            {remover}
+            {' '}
+            <button
+              data-testid={ `filter ${idx}` }
+              onClick={ () => {
+                removing(idx);
+                // setDataFilter(filterAtt(idx));
+              } }
+            >
+              x
+
+            </button>
+          </p>
+        ))}
+      </div>
     </>
 
   );

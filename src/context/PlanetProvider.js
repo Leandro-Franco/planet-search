@@ -28,7 +28,7 @@ function PlanetProvider({ children }) {
     setDataFilter,
   };
   return (
-    <PlanetContext.Provider value={ { values } }>
+    <PlanetContext.Provider value={ values }>
       {children}
     </PlanetContext.Provider>
   );
